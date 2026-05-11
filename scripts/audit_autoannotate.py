@@ -51,6 +51,31 @@ OTHER_SOURCES = re.compile(
     re.IGNORECASE,
 )
 
+# Marqueurs de référence comparative (PAS une source attachée) : "antérieure à la loi", "modifié par la loi", etc.
+# Quand on voit ces marqueurs avant un OTHER_SOURCES, ce dernier n'est pas la source de l'article cité.
+COMPARATIVE_REFERENCE_RE = re.compile(
+    r"\b(?:dans\s+sa\s+r[ée]daction|"
+    r"ant[ée]rieure?(?:\s+(?:à|au))?|"
+    r"post[ée]rieure?(?:\s+(?:à|au))?|"
+    r"modifi[ée]e?\s+par|"
+    r"issue?s?\s+de|"
+    r"r[ée]sultant\s+de|"
+    r"avant\s+(?:la|l['e]\s*entr[ée]e)|"
+    r"apr[èe]s\s+(?:la|l['e]\s*entr[ée]e)|"
+    r"depuis\s+(?:la|l['e]\s*entr[ée]e)|"
+    r"abrog[ée]e?\s+par|"
+    r"introduit[e]?\s+par|"
+    r"^\s*[àÀ]\s+la\s+loi\b|\s+[àÀ]\s+la\s+loi\b)",
+    re.IGNORECASE,
+)
+
+
+def is_comparative_reference(snippet, source_match):
+    """Test si le match de OTHER_SOURCES est précédé d'un marqueur de référence comparative
+    (et donc n'est PAS la source attachée à l'article)."""
+    pre_window = snippet[:source_match.start()]
+    return bool(COMPARATIVE_REFERENCE_RE.search(pre_window[-80:]))
+
 
 def get_db_connection():
     return psycopg2.connect(dbname=os.environ.get("PGDATABASE", "legifrance_db"))
@@ -135,9 +160,11 @@ def annotate_link(text, num, code_label):
 
     if CGI_HINT.search(near_ctx):
         return "VP_HIGH", "CGI_LPF_nomme_proche", re.sub(r"\s+", " ", near_ctx).strip()
-    if OTHER_CODES.search(near_ctx):
+    other_codes_match = OTHER_CODES.search(near_ctx)
+    if other_codes_match and not is_comparative_reference(near_ctx, other_codes_match):
         return "FP_HIGH", "num_attache_autre_code", re.sub(r"\s+", " ", near_ctx).strip()
-    if OTHER_SOURCES.search(near_ctx):
+    other_sources_match = OTHER_SOURCES.search(near_ctx)
+    if other_sources_match and not is_comparative_reference(near_ctx, other_sources_match):
         return "FP_HIGH", "num_attache_loi_convention_decret", re.sub(r"\s+", " ", near_ctx).strip()
 
     # Étage 2 : fenêtre LARGE en backup

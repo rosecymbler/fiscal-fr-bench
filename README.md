@@ -73,7 +73,7 @@ TBD — to be discussed with co-authors. Likely CC-BY-4.0 for the bench, MIT for
 
 ## 👥 Team
 
-- **Rose Cymbler** (Talia) — corpus construction, fiscal validation, paper redaction
+- **Rose Cymbler & Daniel Guez** (Talia) — corpus construction, fiscal validation, paper redaction
 - **Laurent Fabre** (Databricks AI Research) — methodology transposition, evaluation pipeline, paper redaction
 
 

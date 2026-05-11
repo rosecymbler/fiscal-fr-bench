@@ -6,3 +6,5 @@ __pycache__/
 data/articles_cgi_versioned.parquet
 data/liens_juris_cgi.parquet
 *.dump
+data/gold_standard_sample_TO_ANNOTATE.csv
+data/gold_standard_sample_*.csv

@@ -139,6 +139,22 @@ COMPETING_SOURCE_NEAR_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Marqueurs de référence comparative — quand présents AVANT le veto, on désactive le veto.
+# "art. X dans sa rédaction antérieure à la loi n° Y" → ce n'est pas la source de l'article, c'est une référence
+# pour préciser la version. Ne doit PAS déclencher le veto.
+COMPARATIVE_REFERENCE_RE = re.compile(
+    r"\b(?:dans\s+sa\s+r[ée]daction|"
+    r"ant[ée]rieure?(?:\s+(?:à|au))?|"
+    r"post[ée]rieure?(?:\s+(?:à|au))?|"
+    r"modifi[ée]e?\s+par|"
+    r"issue?s?\s+de|"
+    r"r[ée]sultant\s+de|"
+    r"abrog[ée]e?\s+par|"
+    r"introduit[e]?\s+par|"
+    r"avant\s+(?:la|l['e])|apr[èe]s\s+(?:la|l['e])|depuis\s+(?:la|l['e]))",
+    re.IGNORECASE,
+)
+
 
 def extract_candidates(text, head=60000, tail=10000, context_window=100):
     """Extrait les références d'articles candidates (num normalisés).
@@ -162,11 +178,17 @@ def extract_candidates(text, head=60000, tail=10000, context_window=100):
         norm = normalize_num(m.group(1), m.group(2))
         if not norm:
             continue
-        # Veto proximité courte : autre code/loi attaché au num → FP, on skip
+        # Veto proximité courte : autre code/loi attaché au num → FP, on skip.
+        # Sauf si on est dans un contexte de référence comparative ("dans sa rédaction antérieure à la loi...")
+        # auquel cas la source mentionnée n'est pas la source de l'article, juste une référence pour préciser la version.
         veto_end = min(len(text), m.end() + 70)
         veto_ctx = text[m.end():veto_end]
-        if COMPETING_SOURCE_NEAR_RE.search(veto_ctx):
-            continue
+        veto_match = COMPETING_SOURCE_NEAR_RE.search(veto_ctx)
+        if veto_match:
+            # Vérifier le contexte AVANT le match du veto pour les marqueurs de référence comparative
+            pre_veto = veto_ctx[:veto_match.start()]
+            if not COMPARATIVE_REFERENCE_RE.search(pre_veto):
+                continue  # vrai veto → on skip ce candidat
         # Contexte fiscal en fenêtre ±context_window
         start = max(0, m.start() - context_window)
         end = min(len(text), m.end() + context_window)
