@@ -10,22 +10,5 @@ data/liens_juris_cgi.parquet
 data/gold_standard_sample_TO_ANNOTATE.csv
 data/gold_standard_sample_*.csv
 paper/
-BRIEFING.md
-STATUS.md
-scripts/talia_retriever.py
-scripts/dense_retriever.py
-scripts/chunk_articles_into_pgvector.py
-scripts/eval_legalmaps_soft.py
-scripts/eval_talia_retrieval.py
-scripts/eval_improved_retrieval.py
-scripts/eval_chunk_rerank.py
-scripts/eval_llm_rerank.py
-scripts/validate_ctalia_prod.py
-scripts/build_reranker_v2_data.py
-scripts/build_reranker_v3_data.py
-scripts/build_pairs_from_anchors.py
-scripts/build_link_triplets.py
-scripts/gen_synthetic_questions.py
-scripts/run_conditions.py
-scripts/diag_retrieval.py
 data/index/
+# Internal-only scripts and notes are excluded via .git/info/exclude (not published).
