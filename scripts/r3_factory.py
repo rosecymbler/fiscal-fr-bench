@@ -12,7 +12,7 @@ version) with its date range, status, and extracted values, plus a DRIFT flag
 when its values differ from the current version. The team turns each DRIFT row
 into an R3 question + nuggets in ~3 min.
 
-Connection: reads TALIA/.env (DATABASE_URL → RDS talia-db). Read-only queries.
+Connection: an optional local .env (DATABASE_URL for a remote DB), else a local Postgres mirror. Read-only queries.
 """
 import csv
 import os
@@ -26,7 +26,7 @@ try:
 except ImportError:
     sys.exit("psycopg2 not installed. Run: pip install psycopg2-binary")
 
-ENV = Path("/Users/rosecymbler/Desktop/Talia/talia_demo/TALIA/.env")
+ENV = Path(__file__).resolve().parent.parent / ".env"  # optional repo-root .env
 OUT = Path(__file__).resolve().parent.parent / "data" / "benchmark" / "r3_factory_candidates.csv"
 
 # Légifrance LEGITEXT code ids (introspected from the corpus).
@@ -40,7 +40,7 @@ CODES = {
 }
 CGI = CODES["CGI"]
 
-# High-drift × heavily-cited CGI articles (from BRIEFING_LAURENT §11.3).
+# High-drift, heavily-cited CGI articles (from an internal triage).
 TARGET_ARTICLES = ["39", "261", "31", "156", "81", "197", "150 U", "287", "219", "158", "209 B", "150-0 B ter"]
 
 # Use the local corpus by default (RDS security group blocks our IP); set
@@ -66,7 +66,7 @@ def connect():
     load_env(ENV)
     if USE_RDS:
         dsn = os.environ.get("DATABASE_URL")
-        pem = Path("/Users/rosecymbler/Desktop/Talia/talia_demo/global-bundle.pem")
+        pem = Path(os.environ.get("PGSSLROOTCERT") or (Path(__file__).resolve().parent.parent / "global-bundle.pem"))
         kwargs = {"connect_timeout": 10}
         if pem.exists():
             kwargs["sslrootcert"] = str(pem)
