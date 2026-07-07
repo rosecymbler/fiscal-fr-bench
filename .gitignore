@@ -14,3 +14,4 @@ data/index/
 # Internal-only scripts and notes are excluded via .git/info/exclude (not published).
 data/benchmark/table2_refit/backup_*
 data/benchmark/R3_WORKSHEET.md.bak.*
+poster_landing/
