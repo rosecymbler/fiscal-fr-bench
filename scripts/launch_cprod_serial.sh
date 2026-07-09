@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Serial Cprod launch: 2 models at a time (RAM constraint — bge-m3-fiscal +
-# reranker ~4.5GB per process, mac has 16GB total). Each Cprod run takes
-# 30-45 min. Total: 9 models / 2 in parallel ≈ 2-3h wall-clock.
+# Serial Cprod launch: 2 models at a time (RAM constraint — the dense encoder
+# and reranker take ~4.5 GB per process on a 16 GB machine). Each Cprod run
+# takes 30-45 min. Total: 9 models / 2 in parallel ≈ 2-3h wall-clock.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source .venv/bin/activate
