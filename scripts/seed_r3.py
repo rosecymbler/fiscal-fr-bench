@@ -7,8 +7,8 @@ questions (2022, 2024: answer IS 25%, so Cond B and Cond C should agree — this
 shows Cond B fails ONLY under genuine drift, not systematically).
 
 Idempotent: re-running replaces the SEED-* entries, never duplicates.
-This unblocks a preliminary killer experiment for the Laurent meeting; the
-team's worksheet questions extend R3 to k>=30 afterwards.
+This unblocks a preliminary killer experiment; the curated worksheet questions
+extend R3 to the full frozen set afterwards.
 """
 import json
 from pathlib import Path

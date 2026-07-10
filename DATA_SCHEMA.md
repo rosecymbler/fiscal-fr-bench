@@ -173,7 +173,7 @@ ORDER BY decennie;
 
 ---
 
-## Exports for Databricks consumption
+## Exports for downstream consumption
 
 To be generated and added to `data/`:
 
