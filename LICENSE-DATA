@@ -1,0 +1,31 @@
+Data license - Creative Commons Attribution 4.0 International (CC BY 4.0)
+=========================================================================
+
+All DERIVED DATA in this repository - the versioned corpus exports
+(data/articles_cgi_versioned.parquet), the version-aware jurisprudence links
+(data/liens_juris_cgi.parquet), the benchmark (data/benchmark/questions.json,
+nuggets.json, fiscalqa_pro_v0_R3.json and companion files), the audit and
+gold-standard samples (data/audit_links_100_annotated.csv,
+data/gold_standard_sample_*.csv) and the encoder training pairs
+(data/encoder_training_pairs.jsonl) - is released under the Creative Commons
+Attribution 4.0 International license:
+
+    https://creativecommons.org/licenses/by/4.0/legalcode
+
+Attribution: please cite the paper (see README "Citation") and credit
+"FiscalQA Pro / Fiscal-FR-Bench (Talia)".
+
+Underlying public sources
+-------------------------
+The corpus and links are derived from open French public-sector data, which
+must also be attributed when you redistribute:
+
+  - Legislation (CGI, LPF and annexes): Légifrance, DILA - via the PISTE API -
+    Licence Ouverte / Open License Etalab 2.0
+    (https://www.etalab.gouv.fr/licence-ouverte-open-licence/).
+  - Jurisprudence: Judilibre (Cour de cassation) and Arianeweb (Conseil
+    d'État) - Licence Ouverte / Open License Etalab 2.0. Decision texts are
+    reproduced verbatim as published (pseudonymized at the source).
+
+The CODE in this repository (scripts/) is licensed separately under the MIT
+License - see the LICENSE file.

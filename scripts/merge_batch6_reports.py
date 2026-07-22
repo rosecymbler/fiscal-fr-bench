@@ -99,7 +99,7 @@ def main():
     out_json = BENCH / "parametric_filter_report_batch6_merged.json"
     json.dump(merged, open(out_json, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
-    lines = ["# Batch 2-5 parametric filter — merged report (8 models, no short-circuit)\n",
+    lines = ["# Batch 2-5 parametric filter - merged report (8 models, no short-circuit)\n",
              f"**{len(real)} candidates** (excluding controls) across "
              f"{len(set(r['article'] for r in real))} articles.\n",
              "## Survival by selection rule\n",

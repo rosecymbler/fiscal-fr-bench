@@ -80,7 +80,7 @@ STRONG_FISCAL_CONTEXT_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Pattern num simple ambigu (ex: "39", "700", "8" — sans lettre, sans bis/ter, < 4 chiffres)
+# Pattern num simple ambigu (ex: "39", "700", "8" - sans lettre, sans bis/ter, < 4 chiffres)
 SIMPLE_NUM_RE = re.compile(r"^\d{1,3}$")
 
 
@@ -90,7 +90,7 @@ def normalize_num(num_main, suffix):
         return None
     s = num_main.strip()
     s = re.sub(r"\s+", " ", s)
-    # LPF style "L. 169" → "L169" (ou "L 169") — on tente plusieurs variantes plus tard
+    # LPF style "L. 169" → "L169" (ou "L 169") - on tente plusieurs variantes plus tard
     s = re.sub(r"^([LR])\.?\s*", r"\1", s, flags=re.IGNORECASE).upper()
     suffix_clean = re.sub(r"\s+", " ", suffix or "").strip()
     if suffix_clean:
@@ -125,7 +125,7 @@ def build_article_index(cursor):
     return idx
 
 
-# Sources concurrentes (autres codes / lois / conventions) — proximité courte = veto
+# Sources concurrentes (autres codes / lois / conventions) - proximité courte = veto
 COMPETING_SOURCE_NEAR_RE = re.compile(
     r"\b(?:du\s+code\s+(?:civil|p[ée]nal|de\s+(?:proc[ée]dure|commerce|"
     r"travail|consommation|sant[ée]|s[ée]curit[ée]|l[']\s*environnement|"
@@ -139,7 +139,7 @@ COMPETING_SOURCE_NEAR_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Marqueurs de référence comparative — quand présents AVANT le veto, on désactive le veto.
+# Marqueurs de référence comparative - quand présents AVANT le veto, on désactive le veto.
 # "art. X dans sa rédaction antérieure à la loi n° Y" → ce n'est pas la source de l'article, c'est une référence
 # pour préciser la version. Ne doit PAS déclencher le veto.
 COMPARATIVE_REFERENCE_RE = re.compile(
@@ -309,7 +309,7 @@ def insert_lien(cursor, juri_id, article_id, article_cid, type_lien):
 
 
 def process_decisions_unified(cursor, conn, idx, limit=None):
-    print("\n📊 decisions_unified — sous-ensemble fiscal")
+    print("\n📊 decisions_unified - sous-ensemble fiscal")
     # Filtre fiscal : on revient au filtre serré V3 (qui donnait le meilleur compromis recall/précision)
     # Les améliorations sur la précision se font via veto proximité + cohérence date
     # appliqués dans extract_candidates / pick_best_version
@@ -327,7 +327,7 @@ def process_decisions_unified(cursor, conn, idx, limit=None):
 
 
 def process_inca(cursor, conn, idx, limit=None):
-    print("\n📊 inca (Cour de cassation) — sous-ensemble fiscal")
+    print("\n📊 inca (Cour de cassation) - sous-ensemble fiscal")
     q = """
         SELECT id, texte_clean, date_decision
         FROM inca
@@ -343,7 +343,7 @@ def process_inca(cursor, conn, idx, limit=None):
 
 
 def process_arianeweb(cursor, conn, idx, limit=None):
-    print("\n📊 arianeweb_decisions (Conseil d'État) — sous-ensemble fiscal")
+    print("\n📊 arianeweb_decisions (Conseil d'État) - sous-ensemble fiscal")
     q = """
         SELECT id, texte_clean, date_decision
         FROM arianeweb_decisions
@@ -360,7 +360,7 @@ def process_arianeweb(cursor, conn, idx, limit=None):
 
 
 def process_judilibre(cursor, conn, idx, limit=None):
-    print("\n📊 judilibre_decisions — visa fiscal")
+    print("\n📊 judilibre_decisions - visa fiscal")
     q = """
         SELECT id, text_clean, decision_date, visa
         FROM judilibre_decisions

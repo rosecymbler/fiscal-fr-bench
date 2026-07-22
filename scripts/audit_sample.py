@@ -81,7 +81,7 @@ def main():
 
     # Stratification proportionnelle aux résultats du batch :
     # unified 30851, inca 5830, arianeweb 6441, judilibre 758 (total 43880)
-    # → ~70%, 13%, 15%, 2% — on prend 100 liens stratifiés
+    # → ~70%, 13%, 15%, 2% - on prend 100 liens stratifiés
     quotas = {
         "decisions_unified": 70,
         "arianeweb_decisions": 15,

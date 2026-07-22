@@ -7,12 +7,12 @@ Complete data dictionary for the FiscalQA Pro corpus, as it lives in PostgreSQL.
 ## Core tables
 
 ### `articles`
-The versioned legislation table — each row is **one historical version** of a CGI/LPF article.
+The versioned legislation table - each row is **one historical version** of a CGI/LPF article.
 
 | Column | Type | Description |
 |---|---|---|
-| `id` | varchar(50) PK | Légifrance article version id (e.g., `LEGIARTI000029355796`) — **changes** between versions |
-| `cid` | varchar(50) | Constant identifier across versions — **stable** across the entire history of an article |
+| `id` | varchar(50) PK | Légifrance article version id (e.g., `LEGIARTI000029355796`) - **changes** between versions |
+| `cid` | varchar(50) | Constant identifier across versions - **stable** across the entire history of an article |
 | `num` | varchar(100) | Article number as printed (e.g., `"209 B"`, `"L16 B"`, `"1011 bis"`) |
 | `etat` | varchar(50) | One of `VIGUEUR`, `ABROGE`, `MODIFIE`, `VIGUEUR_DIFF` (already voted, not yet effective) |
 | `texte_html` | text | Raw HTML content |
@@ -27,7 +27,7 @@ The versioned legislation table — each row is **one historical version** of a 
 | `extractor_version` | varchar(20) | Set to `chrono-cgi-1.0.0` for entries from this pipeline |
 
 ### `liens_jurisprudence_article`
-The version-aware citation table — each row is **one citation** of a CGI/LPF article by a jurisprudence decision.
+The version-aware citation table - each row is **one citation** of a CGI/LPF article by a jurisprudence decision.
 
 | Column | Type | Description |
 |---|---|---|
@@ -38,9 +38,9 @@ The version-aware citation table — each row is **one citation** of a CGI/LPF a
 | `type_lien` | varchar(100) | One of `VISE` (structured visa from Judilibre), `CITE` (extracted by regex), `APPLIQUE`, `INTERPRETE` |
 | `imported_at` | timestamp | Insertion timestamp |
 
-**Unique constraint** on `(jurisprudence_id, article_id, type_lien)` — same article cannot be cited twice with the same type.
+**Unique constraint** on `(jurisprudence_id, article_id, type_lien)` - same article cannot be cited twice with the same type.
 
-### Tax codes — LEGITEXT mapping
+### Tax codes - LEGITEXT mapping
 
 | `code_id` | Code | Articles | Earliest `date_debut` |
 |---|---|---|---|
@@ -51,13 +51,16 @@ The version-aware citation table — each row is **one citation** of a CGI/LPF a
 | `LEGITEXT000006069574` | CGI annexe III | 3 801 | 1950-04-30 |
 | `LEGITEXT000006069576` | CGI annexe IV | 1 879 | 1979-03-11 |
 
-Total: **32 436 article-versions**, **88 ans** d'historique active (LPF starts in 1938).
+Total: **32 436 article-versions**, **93 ans** d'historique (1938–2031 : le LPF
+commence en 1938 ; les versions 2026–2031 sont des versions **`VIGUEUR_DIFF`**,
+déjà votées mais à effet différé - elles comptent dans l'axe temporel mais ne
+sont jamais servies comme version « en vigueur » par `select_version_current`).
 
 ---
 
 ## Jurisprudence sources
 
-The fiscal decisions come from 4 source tables. **`decisions_unified` is an aggregation table** — it consolidates `inca`, `judilibre`, `arianeweb`, plus other sources (arcep, hudoc, arcom, amf). When computing a global recall, treating `unified` and the underlying sources as independent leads to double-counting.
+The fiscal decisions come from 4 source tables. **`decisions_unified` is an aggregation table** - it consolidates `inca`, `judilibre`, `arianeweb`, plus other sources (arcep, hudoc, arcom, amf). When computing a global recall, treating `unified` and the underlying sources as independent leads to double-counting.
 
 ### Recommended approach
 For paper-quality metrics, treat the 4 sources independently and report by source.
@@ -79,13 +82,13 @@ For paper-quality metrics, treat the 4 sources independently and report by sourc
 - `id`, `ecli`, `source_principale`, `juridiction`, `chambre`, `formation`
 - `numero_pourvoi`, `date_decision`, `solution`
 - `texte_complet`, `texte_nettoye`, `sommaire`
-- `articles_cites` (text[]) — *currently empty, future enrichment*
+- `articles_cites` (text[]) - *currently empty, future enrichment*
 - `themes` (jsonb), `mots_cles` (text[])
-- `texte_tsvector` — indexed for fast fiscal filter
+- `texte_tsvector` - indexed for fast fiscal filter
 
 #### `judilibre_decisions`
 Same as `unified`, plus:
-- `visa` (jsonb) — **structured citation list**, e.g., `[{"title": "Code général des impôts", "articles": ["209 B"]}]`. Used for `VISE` link type.
+- `visa` (jsonb) - **structured citation list**, e.g., `[{"title": "Code général des impôts", "articles": ["209 B"]}]`. Used for `VISE` link type.
 - `formation`, `chamber`, `nac_code`
 
 #### `inca`, `arianeweb_decisions`

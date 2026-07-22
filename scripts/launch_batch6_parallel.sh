@@ -84,7 +84,7 @@ done
 echo
 if [ $FAILED -eq 0 ]; then
     echo "All 11 runs completed. Merge with: python scripts/merge_batch25_reports.py"
-    echo "(the merge script globs all _batch2-5_*.json AND _batch6_*.json patterns —"
+    echo "(the merge script globs all _batch2-5_*.json AND _batch6_*.json patterns -"
     echo "adapt or add batch6-only merge as needed)"
 else
     echo "$FAILED runs failed. Inspect their logs; re-run just those models."

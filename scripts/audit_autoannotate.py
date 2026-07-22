@@ -19,7 +19,7 @@ import argparse
 import psycopg2
 
 # CGI/LPF named references (fiscal scope of the benchmark).
-# The customs code is excluded — it is a distinct code from CGI/LPF.
+# The customs code is excluded - it is a distinct code from CGI/LPF.
 CGI_HINT = re.compile(
     r"\b(?:cgi|code\s+g[ée]n[ée]ral\s+des\s+imp[oô]ts|"
     r"livre\s+des\s+proc[ée]dures\s+fiscales|lpf|"
@@ -136,7 +136,7 @@ def annotate_link(text, num, code_label):
     """Annote un lien : VP_HIGH, VP_MED, FP_HIGH, DOUTE.
 
     Logique en 2 étages :
-    1. Fenêtre PROCHE (±60 chars après le num) — le plus déterministe :
+    1. Fenêtre PROCHE (±60 chars après le num) - le plus déterministe :
        - "article X du CGI" → VP_HIGH
        - "article X du code des douanes" / "art. X du code civil" → FP_HIGH
        - "article X de la loi du …" / "art. X de la convention …" → FP_HIGH
@@ -153,7 +153,7 @@ def annotate_link(text, num, code_label):
     if pos < 0:
         return "FP_HIGH", "num_absent_du_texte", ""
 
-    # Étage 1 : fenêtre PROCHE — focus sur ce qui suit immédiatement le numéro
+    # Étage 1 : fenêtre PROCHE - focus sur ce qui suit immédiatement le numéro
     near_start = max(0, pos - 30)
     near_end = min(len(text), pos + len(matched) + 80)
     near_ctx = text[near_start:near_end]

@@ -25,5 +25,5 @@ SOFTWARE.
 NOTE ON DATA LICENSING. The MIT license above covers the source code in this
 repository (scripts/). The derived datasets (the versioned CGI/LPF corpus and
 the benchmark questions/nuggets) are released separately under CC-BY-4.0, with
-attribution to the underlying open sources — Légifrance (DILA, Licence Ouverte /
+attribution to the underlying open sources - Légifrance (DILA, Licence Ouverte /
 Etalab 2.0), Judilibre (Cour de cassation), and Arianeweb (Conseil d'État).

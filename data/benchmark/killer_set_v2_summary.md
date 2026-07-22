@@ -1,4 +1,4 @@
-# Killer set v2 — final ingestion (2026-07-06)
+# Killer set v2 - final ingestion (2026-07-06)
 
 **Total k = 209**
 

@@ -1,4 +1,4 @@
-# Spec — Annotation Gold Standard
+# Spec - Annotation Gold Standard
 
 > Protocole d'annotation manuelle pour mesurer le **vrai recall** du linking jurisprudence ↔ CGI/LPF de FiscalQA Pro. Cette annotation servira de **ground truth** pour le papier.
 
@@ -15,7 +15,7 @@ Cette annotation permet de calculer :
 - **Recall (vrai)** = articles trouvés par notre pipeline ∩ articles annotés par toi / articles annotés par toi
 - **Précision (cross-check)** = articles trouvés par notre pipeline ∩ articles annotés par toi / articles trouvés par notre pipeline
 
-**Note importante** : ce qu'on appelle "annoter" ici, c'est lister exhaustivement TOUS les articles CGI/LPF effectivement cités dans la décision — pas évaluer l'application de l'article au litige.
+**Note importante** : ce qu'on appelle "annoter" ici, c'est lister exhaustivement TOUS les articles CGI/LPF effectivement cités dans la décision - pas évaluer l'application de l'article au litige.
 
 ---
 
@@ -23,7 +23,7 @@ Cette annotation permet de calculer :
 
 ### Ce que tu DOIS annoter
 Toute référence textuelle à un article appartenant à :
-- **Code général des impôts (CGI)** — corps principal
+- **Code général des impôts (CGI)** - corps principal
 - **CGI annexe I, II, III, IV**
 - **Livre des procédures fiscales (LPF)**
 
@@ -33,7 +33,7 @@ Toute référence textuelle à un article appartenant à :
 - Conventions, décrets, arrêtés, directives
 - Références à des décisions antérieures (`l'arrêt CE Sect. 13 mars 1991`)
 
-### Cas limites — comment trancher
+### Cas limites - comment trancher
 
 | Cas | À annoter ? |
 |---|---|
@@ -67,7 +67,7 @@ Tu vas recevoir un **CSV de 50 décisions** avec ces colonnes :
 
 ### Format pour `articles_cites`
 
-Format : `<CODE> <num>` séparés par `;` — exemples :
+Format : `<CODE> <num>` séparés par `;` - exemples :
 
 ```
 CGI 209 B; CGI 238 A
@@ -142,7 +142,7 @@ R. Les deux : `CGI 209 B; CGI 209 B-0`. Le commentaire peut préciser "renuméro
 
 > **Q. Une décision cite "l'art. 1649 nonies A". Je mets quoi ?**
 
-R. Si c'est dans le CGI : `CGI 1649 nonies A`. Si c'est dans une annexe (à vérifier — il y en a aussi dans annexe I/II/III/IV), précise.
+R. Si c'est dans le CGI : `CGI 1649 nonies A`. Si c'est dans une annexe (à vérifier - il y en a aussi dans annexe I/II/III/IV), précise.
 
 > **Q. La décision dit "le même article" sans préciser lequel. Je remonte plus haut ?**
 

@@ -3,7 +3,7 @@
 
 Dedupes consecutive versions that carry the same value-set, so each row is a
 distinct *value transition* (a real drift point). For each transition we give
-the date range and the version_id — the team writes one R3 question per row,
+the date range and the version_id - the team writes one R3 question per row,
 anchored to the start date, and the nuggets {article, value_then, version_id}.
 
 Output: data/benchmark/R3_WORKSHEET.md
@@ -33,7 +33,7 @@ def main():
         if transitions:
             by_art[art] = (current, transitions)
 
-    lines = ["# R3 Worksheet — temporal-drift questions to write\n"]
+    lines = ["# R3 Worksheet - temporal-drift questions to write\n"]
     lines.append("Each row is a **measured value transition** in the CGI corpus. "
                  "Write ONE question per row, anchored to the start date, whose answer is "
                  "`value_then` (NOT the current value). Fill `question` + `nuggets`.\n")
@@ -42,12 +42,12 @@ def main():
 
     total = 0
     for art, (current, transitions) in by_art.items():
-        lines.append(f"\n## Article {art} CGI  —  current value(s): `{current[:60]}`\n")
+        lines.append(f"\n## Article {art} CGI  -  current value(s): `{current[:60]}`\n")
         lines.append("| start (date_anchor) | end | value_then | version_id | question (TO WRITE) | nuggets (TO WRITE) |")
         lines.append("|---|---|---|---|---|---|")
         for r in transitions:
             d0 = r["date_debut"][:10]
-            d1 = r["date_fin"][:10] if r["date_fin"] else "—"
+            d1 = r["date_fin"][:10] if r["date_fin"] else "-"
             vals = r["values_at_version"][:50]
             lines.append(f"| {d0} | {d1} | `{vals}` | `{r['version_id']}` |  |  |")
             total += 1

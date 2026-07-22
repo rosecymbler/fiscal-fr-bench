@@ -217,7 +217,7 @@ def main():
         if missed and len(miss_examples) < 10:
             miss_examples.append((jid, missed, list(expected_norm)[:5]))
 
-        # Liens supplémentaires (linkés, pas dans visa fuzzy) — probablement motifs ou FP
+        # Liens supplémentaires (linkés, pas dans visa fuzzy) - probablement motifs ou FP
         extras = linked - matched_linked
         if extras:
             decisions_extra_linked += 1
@@ -230,11 +230,11 @@ def main():
     print(f"\n📊 Sous-ensemble exploitable : {n_decisions_with_expected} décisions avec visa fiscal parsable")
     print()
     print("=" * 70)
-    print(" RÉSULTATS — CROSS-VALIDATION VS VISA JUDILIBRE")
+    print(" RÉSULTATS - CROSS-VALIDATION VS VISA JUDILIBRE")
     print("=" * 70)
 
     if n_decisions_with_expected == 0:
-        print("❌ Aucune décision exploitable — le parser de visa peut être trop restrictif")
+        print("❌ Aucune décision exploitable - le parser de visa peut être trop restrictif")
         return
 
     print(f"\n  Total articles attendus (visa fiscal)  : {total_expected}")

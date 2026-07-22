@@ -4,11 +4,7 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
-data/articles_cgi_versioned.parquet
-data/liens_juris_cgi.parquet
 *.dump
-data/gold_standard_sample_TO_ANNOTATE.csv
-data/gold_standard_sample_*.csv
 paper/
 data/index/
 # Internal-only scripts and notes are excluded via .git/info/exclude (not published).

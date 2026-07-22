@@ -33,14 +33,14 @@ For each LEGITEXT (CGI principal + 4 annexes + LPF):
 - **32 436 article-versions** across 6 codes
 - 1938-06-01 → 2031-01-01 (93 years)
 - 5.69 versions/CID for CGI principal
-- Future-vigueur articles included (`etat = VIGUEUR_DIFF`) — useful for testing models on already-voted but not-yet-effective dispositions
+- Future-vigueur articles included (`etat = VIGUEUR_DIFF`) - useful for testing models on already-voted but not-yet-effective dispositions
 
 ---
 
 ## 2. Version-aware jurisprudence ↔ CGI linking
 
 ### Problem
-We want each link in `liens_jurisprudence_article` to point to the **specific version of the article that was applicable** at the date of the decision — not just the article in general.
+We want each link in `liens_jurisprudence_article` to point to the **specific version of the article that was applicable** at the date of the decision - not just the article in general.
 
 ### Pipeline
 
@@ -93,7 +93,7 @@ COMPETING_SOURCE_NEAR_RE = re.compile(
 )
 ```
 
-Applied in the **70 chars immediately after** the article number. If this regex matches, the candidate is rejected — it's attached to a competing legal source.
+Applied in the **70 chars immediately after** the article number. If this regex matches, the candidate is rejected - it's attached to a competing legal source.
 
 #### Version selection
 
@@ -148,7 +148,7 @@ The 14 low-confidence cases (DOUTE + FP_HIGH) are reviewed by hand by the in-hou
 
 - **Precision** = VP / (VP + FP) on the audited 100
 - **Recall** (proxy) = (decisions with at least one link) / (decisions in fiscal subset)
-- **True recall** (in progress) = (correct links found) / (correct links existing) — based on manual ground truth annotation of 50 random decisions
+- **True recall** (in progress) = (correct links found) / (correct links existing) - based on manual ground truth annotation of 50 random decisions
 
 ---
 
@@ -168,9 +168,9 @@ The 12% of FPs in V3 (eliminated to ≤2% in V7 via proximity veto) come from 4 
 
 ## 5. Future improvements (post-paper)
 
-- **NER fine-tuned on CamemBERT** (in training as of 2026-05-10) — weak supervision from 70k regex links + 200-500 manual gold labels. Target: precision 99%+, recall +10pt.
-- **Coreference resolution** for "même code" / "ledit code" / "le même article" — requires deeper NLP.
-- **Cross-validation against Judilibre `visa`** field on the 110k structured visas — provides a strong validation signal for that source.
+- **Fine-tuned NER for citation extraction** - weak supervision from the regex links plus a small set of manual gold labels, to push link precision and recall further.
+- **Coreference resolution** for "même code" / "ledit code" / "le même article" - requires deeper NLP.
+- **Cross-validation against Judilibre `visa`** field on the 110k structured visas - provides a strong validation signal for that source.
 - **Multiple-occurrence pass**: iterate over all mentions of a num in the text instead of just the first.
 
 ---
