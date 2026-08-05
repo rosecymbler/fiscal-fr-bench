@@ -7,7 +7,7 @@ __pycache__/
 *.dump
 paper/
 data/index/
-# Internal-only scripts and notes are excluded via .git/info/exclude (not published).
+# Internal-only artifacts (not published):
 data/benchmark/table2_refit/backup_*
 data/benchmark/R3_WORKSHEET.md.bak.*
 poster_landing/

@@ -14,7 +14,7 @@ The versioned legislation table - each row is **one historical version** of a CG
 | `id` | varchar(50) PK | Légifrance article version id (e.g., `LEGIARTI000029355796`) - **changes** between versions |
 | `cid` | varchar(50) | Constant identifier across versions - **stable** across the entire history of an article |
 | `num` | varchar(100) | Article number as printed (e.g., `"209 B"`, `"L16 B"`, `"1011 bis"`) |
-| `etat` | varchar(50) | One of `VIGUEUR`, `ABROGE`, `MODIFIE`, `VIGUEUR_DIFF` (already voted, not yet effective) |
+| `etat` | varchar(50) | Légifrance consolidation state. Common values: `VIGUEUR`, `ABROGE`, `MODIFIE`, `VIGUEUR_DIFF` (already voted, not yet effective). Also present in the data: `MODIFIE_MORT_NE` (stillborn versions, some with inverted `date_debut`/`date_fin` - excluded by version selection), `PERIME`, `TRANSFERE`, `ANNULE`, `ABROGE_DIFF` |
 | `texte_html` | text | Raw HTML content |
 | `texte_clean` | text | Cleaned plain-text content (HTML stripped) |
 | `nota` | text | Editor notes (typically provenance of the version) |
@@ -24,7 +24,7 @@ The versioned legislation table - each row is **one historical version** of a CG
 | `version` | varchar(50) | Version label (rare) |
 | `nature` | varchar(100) | `LEGIARTI` or `KALIART` |
 | `metadata` | jsonb | Catch-all for fields not mapped elsewhere |
-| `extractor_version` | varchar(20) | Set to `chrono-cgi-1.0.0` for entries from this pipeline |
+| `extractor_version` | varchar(20) | Set to `chrono-cgi-1.0.0` / `chrono-cgi-2.0.0` for entries from this pipeline (NULL on legacy rows) |
 
 ### `liens_jurisprudence_article`
 The version-aware citation table - each row is **one citation** of a CGI/LPF article by a jurisprudence decision.
@@ -51,10 +51,15 @@ The version-aware citation table - each row is **one citation** of a CGI/LPF art
 | `LEGITEXT000006069574` | CGI annexe III | 3 801 | 1950-04-30 |
 | `LEGITEXT000006069576` | CGI annexe IV | 1 879 | 1979-03-11 |
 
-Total: **32 436 article-versions**, **93 ans** d'historique (1938–2031 : le LPF
-commence en 1938 ; les versions 2026–2031 sont des versions **`VIGUEUR_DIFF`**,
-déjà votées mais à effet différé - elles comptent dans l'axe temporel mais ne
-sont jamais servies comme version « en vigueur » par `select_version_current`).
+Total: **32 436 article-versions**, **93 ans** d'historique (1938–2031). Le
+point de départ 1938 est une date d'origine enregistrée par Légifrance sur une
+seule version LPF (art. L28, codifiant le décret-loi du 1er juin 1938) - le
+LPF lui-même date de 1981-82. Les versions 2026–2031 sont des versions
+**`VIGUEUR_DIFF`**, déjà votées mais à effet différé - elles comptent dans
+l'axe temporel mais ne sont jamais servies comme version « en vigueur » par
+`select_version_current`. Une vingtaine de lignes portent des `date_debut`
+sentinelles Légifrance (2222-02-22, 2999-01-01) : exclues du span 1938–2031,
+elles ne peuvent jamais être servies à une date d'ancrage.
 
 ---
 
